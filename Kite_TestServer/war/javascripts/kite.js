@@ -51,7 +51,7 @@
 	    });
 	    
 	    // '#/event' post route. Selects the event data associated a selected marker.
-	    this.post('#/event/:id', function(context) {
+	    this.post('#/event', function(context) {
 //	    	context.log(context.params['id']);
 //			context.event = context.events[context.params['id']];
 //			context.log(context.event);

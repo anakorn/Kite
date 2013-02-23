@@ -15,33 +15,51 @@
 	    var query_url = 'testserver';
 	    var events = '';
 	    
-	    // The base template must always be rendered first. 
-	    this.around(function(callback) {
-	    	var context = this;
-	    	context.app.swap('');	
-	    	context.render('templates/content.template')
-		    	.appendTo(context.$element())
-		    	.then(callback);
-	    });
-	    
-	    // 
+	    // '#/' get route. The main page; loads the content template and the map.
 	    this.get('#/', function(context) {
-	    	
+	    	context.app.swap('');
+	    	context.partial('templates/content.template')
+		    	.load('templates/map.htm')
+		    	.appendTo('#map');
 	    });
 	    
+	    // '#/filter' post route. Updates the page with event data requested from the java server (JSON).
 	    this.post('#/filter', function(context) {
-	    	var type = this.params['type'];
+	    	var type = context.params['type'];
     		var query = "?type=" + type; 
 	    	
+    		// Send a request to the java server
     		context.loadJSON(query_url + query).then(function(events) {
+    			// then refresh the events that are stored/displayed.
+	    		$('.event-info').remove();
 	    		context.events = events.data;
 	    	}).then(function() {
+	    		// then render and display the newly fetched events. 
 	    		$.each(context.events, function(i, event) {
 		    		context.render('templates/event-info.template', {id: i, event: event}).appendTo('#menu');
 		    	});
-	    	});
-    		
+	    	});	
 	    });
+	    
+	    // Executes after '#/filter' is requested. Updates the map with new event data
+	    this.after('#/filter', function() {
+	    	var context = this;
+	    	// Clear the map.
+	    	
+	    	// Place the new markers.
+	    	
+	    });
+	    
+	    // '#/event' post route. Selects the event data associated a selected marker.
+	    this.post('#/event/:id', function(context) {
+//	    	context.log(context.params['id']);
+//			context.event = context.events[context.params['id']];
+//			context.log(context.event);
+//			if(!context.event) {return context.notFound(); }
+//			context.render('templates/event-detail.template', {name: "content-popup", event: context.event}).replace($('#content-popup'));
+//			$('#content-popup').bPopup();
+	    });
+	    
 
 	});
 	

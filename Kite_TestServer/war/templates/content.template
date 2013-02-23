@@ -17,5 +17,11 @@
 	</div>
 	<div id="content-map">
 		<h3>Map</h3>
+		<div id="map">
+		
+		</div>
+	</div>
+	<div id="content-popup">
+	
 	</div>
 </div>

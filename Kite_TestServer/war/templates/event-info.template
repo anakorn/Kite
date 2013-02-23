@@ -1,11 +1,15 @@
-<div class="event-info">
-	<div class="event-detail">
-		<div class="event-image"><img src="<%= event.pic_big %>" alt="<%= event.name %>" width="50px"/></div>
-		<div class="event-id"><%= id %></div>
-	</div>
-	<div class="event-detail">
-	    <div class="event-name"><%= event.name %></div>
-	    <div class="event-time">$<%= event.start_time %></div>
-	    <div class="event-time">$<%= event.end_time %></div>
-	</div>
-</div>
+<form id="event-info-<%= id %>" action="#/event/<%= id %>" method="post">
+	<div class="event-info">
+	    <a href="javascript:;" onclick="$('event-info-<%= id %>').submit();">
+	    	<div class="event-info-detail">
+				<div class="event-image"><img src="<%= event.pic_big %>" alt="<%= event.name %>" width="50px"/></div>
+				<div class="event-id"><%= id %></div>
+			</div>
+			<div class="event-info-detail">
+			    <div class="event-name"><%= event.name %></div>
+			    <div class="event-time">$<%= event.start_time %></div>
+			    <div class="event-time">$<%= event.end_time %></div>
+			</div>
+	    </a>
+    </div>
+</form>

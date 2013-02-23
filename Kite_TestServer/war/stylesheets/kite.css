@@ -28,6 +28,8 @@ img {
 	border: 0;
 }
 
+/* CONTENT */
+
 .content {
 	width: 1020px;
 	margin: auto auto auto auto;
@@ -52,53 +54,56 @@ img {
 	margin: 5px;
 }
 
-/*
-EVENT-INFO
-<div class="event-info">
-	<div class="event-detail">
-		<div class="event-image"><img src="<%= event.pic_big %>" alt="<%= event.name %>" /></div>
-		<div class="event-id"><%= event.eid %></div>
-	</div>
-	<div class="event-detail">
-	    <div class="event-name"><%= event.name %></div>
-	    <div class="event-time">$<%= event.start_time %></div>
-	    <div class="event-time">$<%= event.end_time %></div>
-	</div>
-</div>
-*/
+/* EVENT-INFO */
 
 .event-info {
 	float:left;
 	width: 350px;
 	font-size: 12px;
 }
-.event-detail {
+.event-info-detail {
 	float:left;
 	margin:5px;
 }
 
-.event-detail .event-image {
+.event-info-detail .event-image {
 	float: none;
 }
 
-.event-detail .event-id {
+.event-info-detail .event-id {
 	float: none;
 }
 
-.event-detail .event-name {
+.event-info-detail .event-name {
 	float: none;
 	width: 250px;
 	text-align:left;
 	font-weight: bold;
 	font-size: 14px;
 }
-.event-detail .event-time {
+.event-info-detail .event-time {
 	float: none;
 	text-align:left;
 }
 
+/* MAP */
+
 #map {
 	width: 648px;
 	height: 648px;
-	border: solid 1px lightgrey; 
+	border: solid 1px black; 
+}
+
+/* EVENT-DETAILS */
+
+.event-details {
+	
+}
+
+.vertical {
+	float: none;
+}
+
+.horizontal {
+	float: left;
 }

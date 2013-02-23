@@ -1,0 +1,20 @@
+<div class="event-details">
+	<div class="vertical">
+		<div class="horizontal">
+			<div class="event-image"><img src="<%= event.pic_big %>" alt="<%= event.name %>"/></div>
+			<div class="event-id"><%= id %></div>
+		</div>
+		<div class="horizontal">
+		    <div class="event-name"><%= event.name %></div>
+			<div class="event-host"><%= event.host %></div>
+		    <div class="event-time">$<%= event.start_time %></div>
+		    <div class="event-time">$<%= event.end_time %></div>
+		    <div class="event-location">$<%= event.location %></div> 
+		</div>
+	</div>
+	<div class="vertical>
+		<div class="event-description"><%= event.description %></div>
+		<div class="event-attending"><%= event.attending %></div>
+		<div class="event-invite-count"><%= event.all_members_count %></div>
+	</div>
+</div>

@@ -1,0 +1,21 @@
+<div class="content">
+	<div id="content-menu">
+    	<h3>Menu</h3>
+    	<div id="filter-menu">
+    		<form action="#/filter" method="post">
+				<input type="hidden" name="type" value="0" />
+				<input type="submit" name="submit" value="filter 0" />
+			</form>
+			<form action="#/filter" method="post">
+				<input type="hidden" name="type" value="1" />
+				<input type="submit" name="submit" value="filter 1" />
+			</form>
+    	</div>
+    	<div id="menu">
+    	
+    	</div>
+	</div>
+	<div id="content-map">
+		<h3>Map</h3>
+	</div>
+</div>

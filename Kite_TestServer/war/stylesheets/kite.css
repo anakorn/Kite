@@ -1,0 +1,104 @@
+
+body {
+	font-family: "Lucida Grande", Lucida, Helvetica, Arial, sans-serif;
+	background: #FFF;
+	color: #333;
+	margin: 0px;
+	padding: 0px;
+}
+
+#container {
+	width: 1000px;
+	margin: auto auto auto auto;
+}
+
+#header {
+	margin: 0px;
+	padding: 20px;
+	text-align: center;
+}
+
+#header h1 {
+	font-family: Helvetica, Arial, sans-serif;
+	color: gray;
+	margin: 0px;
+}
+
+img {
+	border: 0;
+}
+
+.content {
+	width: 1020px;
+	margin: auto auto auto auto;
+}
+
+#content-menu {
+	float: left;
+	width: 350px;
+	text-align: center;
+	margin: 5px;
+}
+
+#menu {
+	height: 650px;
+	overflow: scroll;
+}
+
+#content-map {
+	float: left;
+	width: 650px;
+	text-align: center;
+	margin: 5px;
+}
+
+/*
+EVENT-INFO
+<div class="event-info">
+	<div class="event-detail">
+		<div class="event-image"><img src="<%= event.pic_big %>" alt="<%= event.name %>" /></div>
+		<div class="event-id"><%= event.eid %></div>
+	</div>
+	<div class="event-detail">
+	    <div class="event-name"><%= event.name %></div>
+	    <div class="event-time">$<%= event.start_time %></div>
+	    <div class="event-time">$<%= event.end_time %></div>
+	</div>
+</div>
+*/
+
+.event-info {
+	float:left;
+	width: 350px;
+	font-size: 12px;
+}
+.event-detail {
+	float:left;
+	margin:5px;
+}
+
+.event-detail .event-image {
+	float: none;
+}
+
+.event-detail .event-id {
+	float: none;
+}
+
+.event-detail .event-name {
+	float: none;
+	width: 250px;
+	text-align:left;
+	font-weight: bold;
+	font-size: 14px;
+}
+.event-detail .event-time {
+	float: none;
+	text-align:left;
+}
+
+#map {
+	width: 648px;
+	height: 648px;
+	border: solid 1px lightgrey; 
+}

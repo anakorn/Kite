@@ -1,20 +1,35 @@
 <!-- HIDE JS FROM OLDER BROWSERS
 
-// Add a property to Marker class called "eventId"
+// Marker.eventId for tracking event info
 google.maps.Marker.prototype.eventId;
 
-// Array of Marker objects
-google.maps.Map.prototype.markers = [];
+// Map.geo for geocoding addresses
+google.maps.Map.geo;
 
-// The InfoBox used to display a marker's info
-google.maps.Map.prototype.infoBox = new InfoBox();
+// Map.markers tracks all markers on map
+google.maps.Map.prototype.markers;
 
-google.maps.Map.prototype.addMarker = function(eventId, position, eventName, iconUrl) {
+// Map.infoBox displays a marker's info
+google.maps.Map.prototype.infoBox;
+
+google.maps.Map.prototype.addMarkerByAddress = function(eventId, eventName, address) {
+	
+	this.geo.geocode({ "address": address }, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			map.addMarker(eventId, eventName, results[0].geometry.location);
+		}
+		else {
+			alert("Geocode was not successful for the following reason: " + status);
+		}
+	});
+};
+
+google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {
 
 	// Create the event marker
 	var marker = new google.maps.Marker({
-		isOpened: false,
-		position: position,
+		icon: "red-dot.png",
+		position: latLng,
 		map: this,
 		eventId: eventId
 	});
@@ -26,13 +41,13 @@ google.maps.Map.prototype.addMarker = function(eventId, position, eventName, ico
         	background: "#E0E4F0",
 	        border: "1px solid grey",
 	        textAlign: "center",
-	        fontSize: "10pt",
+	        font: "10pt",
 	        width: "200px",
 	        padding: "2px"
         },
 		disableAutoPan: true,
         pixelOffset: new google.maps.Size(-100, 0),
-        position: position,
+        position: latLng,
         closeBoxURL: "",
         isHidden: false,
         pane: "mapPane",
@@ -45,16 +60,18 @@ google.maps.Map.prototype.addMarker = function(eventId, position, eventName, ico
 		//map.infoBox.open(map, marker);
 	});
 
-	// Event handler "mouseover" for expanding the event list item
+	// Event handler "mouseover" for label text and marker highlight
 	google.maps.event.addListener(marker, "mouseover", function() {
 		map.infoBox.setOptions(infoBoxOptions);
 		map.infoBox.open(map, marker);
+		marker.setIcon("yellow-dot.png");
 	});
-	
-	// Set the icon image using an image URL
-	if (iconUrl != undefined) {
-		marker.setIcon(iconUrl);
-	}
+
+	// Event handler "mouseout" for label text and marker highlight
+	google.maps.event.addListener(marker, "mouseout", function() {
+		map.infoBox.close();
+		marker.setIcon("red-dot.png");
+	});
 	
 	// Store in Marker array
 	this.markers.push(marker);
@@ -70,18 +87,12 @@ google.maps.Map.prototype.clearMarkers = function() {
 	this.markers = [];
 };
 
-// Close the map's main InfoBox
-google.maps.Map.prototype.clearInfoBox = function() {
-	
-	this.infoBox.close();
-};
-
 // Get marker, given its ID
 google.maps.Map.prototype.getMarker = function(eventId) {
 	
-	for (var i = 0; i < this.markers.length; ++i) {
-		if (this.markers[i].eventId = eventId)
-			return markers[i];
+	for (var i = 0; i < this.markers.length; i++) {
+		if (this.markers[i].eventId == eventId)
+			return this.markers[i];
 	}
 	return null;
 };

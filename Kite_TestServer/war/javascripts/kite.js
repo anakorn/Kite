@@ -17,9 +17,7 @@
 	    // '#/' get route. The main page; loads the content template and the map.
 	    this.get('#/', function(context) {
 	    	context.app.swap('');
-	    	context.partial('templates/content.template')
-		    	.load('templates/map.htm')
-		    	.appendTo('#map');
+	    	context.partial('templates/content.template');
 	    });
 	    
 	    // '#/filter' post route. Updates the page with event data requested from the java server (JSON).

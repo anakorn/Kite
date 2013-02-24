@@ -16,6 +16,7 @@
 	    
 	    // '#/' get route. The main page; loads the content template and the map.
 	    this.get('#/', function(context) {
+	    	context.partial("templates/content.template");
 	    	google.maps.event.addDomListener(window, "load", kiteInitializeMap);
 	    });
 	    

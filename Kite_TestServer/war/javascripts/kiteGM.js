@@ -8,9 +8,6 @@ var mapStartPos;	// Starting LatLng location
 var mapStartZoom;	// Starting zoom amount
 
 function kiteInitializeMap() {
-
-	// Geocoder Initialization
-	geo = new google.maps.Geocoder();
 	
 	// Map Initialization
 	mapStartPos = new google.maps.LatLng(33.6459, -117.8427);
@@ -18,19 +15,30 @@ function kiteInitializeMap() {
 	mapOptions = {
 		center: mapStartPos,
 		zoom: mapStartZoom,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		panControl: false,
+		streetViewControl: false,
+		zoomControlOptions: {
+			position: google.maps.ControlPosition.RIGHT_CENTER
+		}
 	};
-	alert(document.getElementById("map_canvas") == null);
-	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-	
-	// Event listener for clearing markers on:
-	// - Mouse movement
-	google.maps.event.addListener(map, "mousemove", map.clearInfoBox);
+
+	map 			= new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	map.geo 		= new google.maps.Geocoder();
+	map.infoBox 	= new InfoBox();
+	map.markers 	= [];
 	
 	// Initialization code
-	map.addMarker(0, mapStartPos, "Game Developers Week @ UCI");
-	map.addMarker(1, new google.maps.LatLng(33.6455, -117.8530), "[Workshop - Production] Legal Issues, Licenses, and Copyrights Event");
-	// map.clearMarkers();
+	map.addMarkerByAddress(
+			0, 								// Event ID (probably going to be removed)
+			"Game Developers Week @ UCI",	// Event name
+			"Donald Bren Hall"				// Event address
+	);
+	map.addMarker(
+			1, 
+			"[Workshop - Production] Legal Issues, Licenses, and Copyrights Event", 
+			mapStartPos
+	);
 };
 
 -->

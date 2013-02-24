@@ -13,7 +13,6 @@
 
 	    this.debug = false;
 	    var query_url = 'testserver';
-	    var events = '';
 	    
 	    // '#/' get route. The main page; loads the content template and the map.
 	    this.get('#/', function(context) {
@@ -40,7 +39,7 @@
 		    	});
 	    	});	
 	    });
-	    
+	    	    
 	    // Executes after '#/filter' is requested. Updates the map with new event data
 	    this.after('#/filter', function() {
 	    	var context = this;
@@ -52,12 +51,13 @@
 	    
 	    // '#/event' post route. Selects the event data associated a selected marker.
 	    this.post('#/event', function(context) {
-//	    	context.log(context.params['id']);
-//			context.event = context.events[context.params['id']];
-//			context.log(context.event);
-//			if(!context.event) {return context.notFound(); }
-//			context.render('templates/event-detail.template', {name: "content-popup", event: context.event}).replace($('#content-popup'));
-//			$('#content-popup').bPopup();
+	    	context.log(context.params['id']);
+	    	context.log(context.events);
+			context.event = context.events[context.params['id']];
+			context.log(context.event);
+			if(!context.event) {return context.notFound(); }
+			context.render('templates/event-detail.template', {name: "content-popup", event: context.event}).replace($('#content-popup'));
+			$('#content-popup').bPopup();
 	    });
 	    
 

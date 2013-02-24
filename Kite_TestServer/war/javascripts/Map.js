@@ -1,6 +1,7 @@
 <!-- HIDE JS FROM OLDER BROWSERS
 
-google.maps.Map.prototype.INFO_WINDOW_MAX_WIDTH = 280;
+// Add a property to Marker class called "eventId"
+google.maps.Marker.prototype.eventId;
 
 // Array of Marker objects
 google.maps.Map.prototype.markers = [];
@@ -8,41 +9,44 @@ google.maps.Map.prototype.markers = [];
 // The InfoBox used to display a marker's info
 google.maps.Map.prototype.infoBox = new InfoBox();
 
-google.maps.Map.prototype.addMarker = function(eventId, position, innerHtml, iconUrl) {
+google.maps.Map.prototype.addMarker = function(eventId, position, eventName, iconUrl) {
 
 	// Create the event marker
 	var marker = new google.maps.Marker({
 		isOpened: false,
 		position: position,
-		map: this
+		map: this,
+		eventId: eventId
 	});
-	
-	var boxText = document.createElement("div");
-	boxText.style.cssText = "font-family: 'Verdana', Times, serif; border: 1px solid black; margin-top: 8px; background: #E0E4F0; padding: 5px;";
-	boxText.innerHTML = innerHtml;
 
 	// Create the associated InfoBox options
 	var infoBoxOptions = {
-		content: boxText,
-        disableAutoPan: false,
-		maxWidth: 0,
-		pixelOffset: new google.maps.Size(-140, 0),
-		zIndex: null,
-		boxStyle: {
-			background: "url('tipbox.gif') no-repeat",
-			opacity: 0.85,
-			width: "280px"
-		},
-		closeBoxMargin: "10px 2px 2px 2px",
-		closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
-		infoBoxClearance: new google.maps.Size(1, 1),
-		isHidden: false,
-		pane: "floatPane",
-		enableEventPropagation: false
+		content: eventName,
+        boxStyle: {
+        	background: "#E0E4F0",
+	        border: "1px solid grey",
+	        textAlign: "center",
+	        fontSize: "10pt",
+	        width: "200px",
+	        padding: "2px"
+        },
+		disableAutoPan: true,
+        pixelOffset: new google.maps.Size(-100, 0),
+        position: position,
+        closeBoxURL: "",
+        isHidden: false,
+        pane: "mapPane",
+        enableEventPropagation: true
 	};
 	
-	// Hook up the marker with an event listener for opening info window
+	// Event handler "click" for expanding the event list item
 	google.maps.event.addListener(marker, "click", function() {
+		//map.infoBox.setOptions(infoBoxOptions);
+		//map.infoBox.open(map, marker);
+	});
+
+	// Event handler "mouseover" for expanding the event list item
+	google.maps.event.addListener(marker, "mouseover", function() {
 		map.infoBox.setOptions(infoBoxOptions);
 		map.infoBox.open(map, marker);
 	});
@@ -67,9 +71,19 @@ google.maps.Map.prototype.clearMarkers = function() {
 };
 
 // Close the map's main InfoBox
-google.maps.Map.prototype.clearInfoBoxes = function() {
+google.maps.Map.prototype.clearInfoBox = function() {
 	
 	this.infoBox.close();
+};
+
+// Get marker, given its ID
+google.maps.Map.prototype.getMarker = function(eventId) {
+	
+	for (var i = 0; i < this.markers.length; ++i) {
+		if (this.markers[i].eventId = eventId)
+			return markers[i];
+	}
+	return null;
 };
 
 -->

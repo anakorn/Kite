@@ -5,6 +5,7 @@ body {
 	color: #333;
 	margin: 0px;
 	padding: 0px;
+	height: 100%;
 }
 
 #container {
@@ -88,10 +89,10 @@ img {
 
 /* MAP */
 
-#map {
+#map_canvas {
 	width: 648px;
 	height: 648px;
-	border: solid 1px black; 
+	border: solid 1px black;
 }
 
 /* EVENT-DETAILS */

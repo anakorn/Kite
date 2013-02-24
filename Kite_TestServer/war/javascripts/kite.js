@@ -16,8 +16,7 @@
 	    
 	    // '#/' get route. The main page; loads the content template and the map.
 	    this.get('#/', function(context) {
-	    	context.app.swap('');
-	    	context.partial('templates/content.template');
+	    	google.maps.event.addDomListener(window, "load", kiteInitializeMap);
 	    });
 	    
 	    // '#/filter' post route. Updates the page with event data requested from the java server (JSON).
@@ -42,9 +41,12 @@
 	    this.after('#/filter', function() {
 	    	var context = this;
 	    	// Clear the map.
+	    	map.clearMarkers();
+	    	map.clearInfoBox();
 	    	
 	    	// Place the new markers.
-	    	
+	    	// for (var i = 0; i < eventInfos.length; ++i)
+	    	//
 	    });
 	    
 	    // '#/event' post route. Selects the event data associated a selected marker.

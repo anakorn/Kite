@@ -20,17 +20,16 @@ function kiteInitializeMap() {
 		zoom: mapStartZoom,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
+	alert(document.getElementById("map_canvas") == null);
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	
 	// Event listener for clearing markers on:
-	// - Dragging map
-	// - Clicking on map
-	google.maps.event.addListener(map, "click", map.clearInfoBoxes);
-	// google.maps.event.addListener(map, "click", clearInfoBoxes);
+	// - Mouse movement
+	google.maps.event.addListener(map, "mousemove", map.clearInfoBox);
 	
 	// Initialization code
-	map.addMarker(0, mapStartPos, "HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD ");
-	map.addMarker(1, new google.maps.LatLng(33.6455, -117.8530), "WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT WHAT");
+	map.addMarker(0, mapStartPos, "Game Developers Week @ UCI");
+	map.addMarker(1, new google.maps.LatLng(33.6455, -117.8530), "[Workshop - Production] Legal Issues, Licenses, and Copyrights Event");
 	// map.clearMarkers();
 };
 

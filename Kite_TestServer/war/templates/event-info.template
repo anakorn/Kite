@@ -2,11 +2,13 @@
 	<div class="event-image"><img src="<%= event.pic_big %>" alt="<%= event.name %>" width="50px"/></div>
 	<!-- <div class="event-id"><%= id %></div> -->
     <div class="event-name"><%= event.name %></div>
-    <div class="event-time">Start: <%= event.start_time ? moment(event.start_time).format('LLL') : 'N/A' %></div>
-    <div class="event-time">End: <%= event.end_time ? moment(event.end_time).format('LLL') : 'N/A' %></div>
+    <div class="event-time"><b>Start: </b><%= event.start_time ? moment(event.start_time).format('LLL') : 'N/A' %></div>
+    <div class="event-time"><b>End: </b><%= event.end_time ? moment(event.end_time).format('LLL') : 'N/A' %></div>
     <div class="event-detail">
-        <div class="event-attn">Attendance: <%= event.attending_count %></div>
-    	<div class="event-desc">Description: <%= event.description %></div>
+    	<div class="event-attn"><b>Invited: </b><%= event.all_members_count %></div>
+        <div class="event-attn"><b>Attendance: </b><%= event.attending_count %></div>
+        <br>
+    	<div class="event-desc"><b>Description: </b><%= event.description %></div>
     </div>
     
 </li>

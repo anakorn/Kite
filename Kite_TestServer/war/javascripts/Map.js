@@ -4,7 +4,10 @@
 google.maps.Marker.prototype.eventId;
 
 // Map.geo for geocoding addresses
-google.maps.Map.geo;
+google.maps.Map.prototype.geo;
+
+// Map.geoRequestQueue for processing geocoding requests
+google.maps.Map.prototype.geoRequestQueue;
 
 // Map.markers tracks all markers on map
 google.maps.Map.prototype.markers;
@@ -12,16 +15,29 @@ google.maps.Map.prototype.markers;
 // Map.infoBox displays a marker's info
 google.maps.Map.prototype.infoBox;
 
-google.maps.Map.prototype.addMarkerByAddress = function(eventId, eventName, address) {
+google.maps.Map.prototype.addGeocodeRequest = function(eventId, eventName, address) {
 	
-	this.geo.geocode({ "address": address }, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-			map.addMarker(eventId, eventName, results[0].geometry.location);
-		}
-		else {
-			alert("Geocode was not successful for the following reason: " + status);
-		}
-	});
+	// Enqueue the geocode function as a request
+	this.geoRequestQueue.enqueue(function() {
+		map.geo.geocode({ "address": address }, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				map.addMarker(eventId, eventName, results[0].geometry.location);
+			}
+			else {
+				alert("Geocode was not successful for the following reason: " + status);
+			}
+			
+			// Process remaining requests after this geocoded address is found
+			map.processGeocodeRequests();
+		});
+	})
+};
+
+google.maps.Map.prototype.processGeocodeRequests = function() {
+	
+	if (!this.geoRequestQueue.isEmpty()) {
+		this.geoRequestQueue.dequeue()();
+	}
 };
 
 google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {

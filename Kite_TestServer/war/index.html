@@ -8,35 +8,83 @@
 	
 	<title>Kite</title>
 	<link rel="stylesheet" href="stylesheets/kite.css" type="text/css" media="screen" charset="utf-8"/>
+	
+	<script src="javascripts/util.js" type="text/javascript" charset="utf-8"></script>
+	<script src="javascripts/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="javascripts/jquery.scrollTo-1.4.3.1-min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="javascripts/moment.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4X9nXxw5viXb8v4-o_S6y5RFT-ieyipE&sensor=false" type="text/javascript" charset="utf-8"></script>
+	<script src="javascripts/infobox.js" type="text/javascript"></script>
+	<script src="javascripts/Map.js" type="text/javascript"></script>
+	<script src="javascripts/kiteGM.js" type="text/javascript"></script>
+	
 </head>
-<body>
+<body onLoad="kiteInitializeMap()">
 	<div id="wrapper">
 		<div id="container">
+			<!-- 
 			<div id="header">
 				<h1>Kite</h1>
 			</div>
-			<div id="main">
-				<!-- Dynamic Content -->
-			</div>
-			<div id="content-map">
-				<div id="map_canvas">
-					
+			 -->
+			<div id="content">
+				<div id="content-menu">
+					<div id="event-list">
+						<!-- Loaded Content -->
+					</div>
+					<div id="filter-form">
+					<!-- http://woork.blogspot.com/2008/06/clean-and-pure-css-form-design.html -->
+						<div id="stylized" class="myform">
+							<form id="form" name="form" method="post" action="#/filter">
+								<h1>Filters</h1>
+								
+								<label>Event Name:</label>
+								<input type="text" name="name" id="name" />
+								
+								<label>Event Description:</label>
+								<input type="text" name="desc" id="desc" />
+								
+								<label>Location:</label>
+								<input type="text" name="loc" id="loc" />
+								
+								<label>Host Name:</label>
+								<input type="text" name="host" id="host" />
+								
+								
+								<label>Time:</label>
+								<div id="checkbox-box">
+									<div class="cb-wrap"><input type="checkbox" name="time" id="now" value="now" /><label>Now</label></div>
+									<div class="cb-wrap"><input type="checkbox" name="time" id="past" value="past" /><label>Past</label></div>
+									<div class="cb-wrap"><input type="checkbox" name="time" id="future" value="future" /><label>Future</label></div>
+								</div>
+								
+								<label>Attendance:</label>
+								<div id="checkbox-box">
+									<div class="cb-wrap"><input type="checkbox" name="attn" id="gt" value="gt" /><label>></label></div>
+									<div class="cb-wrap"><input type="checkbox" name="attn" id="eq" value="eq" /><label>=</label></div>
+									<div class="cb-wrap"><input type="checkbox" name="attn" id="lt" value="lt" /><label><</label></div>
+									<input type="text" name="attn_count" id="attn_count" maxlength="4")/>
+								</div>
+								
+								<input type="hidden" name="type" value="0" />
+								<button type="submit">Filter</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div id="content-map">
+					<div id="map_canvas">
+						
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<script src="javascripts/jquery-1.4.2.js" type="text/javascript" charset="utf-8"></script>
-	<script src="javascripts/jquery.bpopup-0.8.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascripts/sammy/sammy.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascripts/sammy/plugins/sammy.template.js" type="text/javascript" charset="utf-8"></script>
-	<script src="javascripts/sammy/plugins/sammy.json.js" type="text/javascript" charset="utf-8"></script>
-	<script src="javascripts/sammy/plugins/sammy.storage.js" type="text/javascript" charset="utf-8"></script>
-	<script src="javascripts/sammy/plugins/sammy.form.js" type="text/javascript" charset="utf-8"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4X9nXxw5viXb8v4-o_S6y5RFT-ieyipE&sensor=false" type="text/javascript" charset="utf-8"></script>
-	<script src="javascripts/infobox.js" type="text/javascript"></script>
-	<script src="javascripts/Map.js" type="text/javascript"></script>
-	<script src="javascripts/kiteGM.js" type="text/javascript"></script>
+
 	<script src="javascripts/kite.js" type="text/javascript" charset="utf-8"></script>
+	
 </body>
 </html>

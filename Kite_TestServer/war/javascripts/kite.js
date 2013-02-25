@@ -1,70 +1,75 @@
 (function($) {
 
-	var app = $.sammy('#main', function() {
+	var app = $.sammy('#content', function() {
 		this.use('Template');
-		this.use('Session');
-
 		this.helpers({
             loadJSON: function(location, options, callback) {
                 options = $.extend(options, {json: true});
                 return new Sammy.RenderContext(this).load(location, options, callback);
             }
         });
-
 	    this.debug = false;
-	    var query_url = 'testserver';
 	    
-	    // '#/' get route. The main page; loads the content template and the map.
+	    // Instance vars
+	    var query_url = 'testserver';
+	    var events = [];
+	    var DEFAULT_QUERY = {'type': 1};
+	    
+	    // '#/' get route
 	    this.get('#/', function(context) {
-	    	context.partial("templates/content.template");
-	    	google.maps.event.addDomListener(window, "load", kiteInitializeMap);
+	    	context.params = new Sammy.Object(DEFAULT_QUERY);
+	    	loadEventList(query_url, context);
 	    });
 	    
 	    // '#/filter' post route. Updates the page with event data requested from the java server (JSON).
 	    this.post('#/filter', function(context) {
-	    	var type = context.params['type'];
-    		var query = "?type=" + type; 
-	    	
-    		// Send a request to the java server
-    		context.loadJSON(query_url + query).then(function(events) {
-    			// then refresh the events that are stored/displayed.
+	    	loadEventList(query_url, context);	   
+	    });
+	    
+	    this.get('#/test/:selector', function(context) {
+			expandListItem("#"+context.params['selector']);
+
+	    });
+	    
+		// function loadEventList(url, params): 
+	    // Send a request to the java server; refresh the events that are stored/displayed; 
+    	// render and display the newly fetched events; create a marker; 
+    	// add event data and marker to events; render the event list item 
+    	// var marker = createMarker();
+        function loadEventList(url, context) {
+	    	var query = "?"; 
+	    	$.each(getKeys(context.params), function(i, key) {
+	    		query += key + "=" + context.params[key];
+	    		if(i < getKeys(context.params).length - 1) {
+	    			query += "&";
+	    		}
+	    	});
+    		context.loadJSON(url + query).then(function(events) {
 	    		$('.event-info').remove();
 	    		context.events = events.data;
 	    	}).then(function() {
-	    		// then render and display the newly fetched events. 
-	    		$.each(context.events, function(i, event) {
-		    		context.render('templates/event-info.template', {id: i, event: event}).appendTo('#menu');
+	    		$.each(context.events, function(i, event) {	    			
+	    			events[i] = {'event': event}//, marker: marker};
+	    			if(i < context.events.length - 1) {
+	    				context.render('templates/event-info.template', {id: i, event: event})
+	    					.appendTo('#event-list');
+	    			} else {
+	    				context.render('templates/event-info.template', {id: i, event: event})
+	    					.appendTo('#event-list')
+	    					.then(function() {
+	    		        		$('.event-info').click(function(e) {
+	    		        			context.log($(e.target).parent().attr('id'));
+	    		        			expandListItem($(e.target).parent());
+	    		        		});	
+	    			    	});
+	    			}
 		    	});
-	    	});	
-	    });
-	    	    
-	    // Executes after '#/filter' is requested. Updates the map with new event data
-	    this.after('#/filter', function() {
-	    	var context = this;
-	    	// Clear the map.
-	    	map.clearMarkers();
-	    	map.clearInfoBox();
-	    	
-	    	// Place the new markers.
-	    	// for (var i = 0; i < eventInfos.length; ++i)
-	    	//
-	    });
+	    	});
+        }
 	    
-	    // '#/event' post route. Selects the event data associated a selected marker.
-	    this.post('#/event', function(context) {
-	    	context.log(context.params['id']);
-	    	context.log(context.events);
-			context.event = context.events[context.params['id']];
-			context.log(context.event);
-			if(!context.event) {return context.notFound(); }
-			context.render('templates/event-detail.template', {name: "content-popup", event: context.event}).replace($('#content-popup'));
-			$('#content-popup').bPopup();
-	    });
-	    
-
 	});
 	
-	$(function() {
+	$(document).ready(function() {
 		app.run('#/');
 	});
 		

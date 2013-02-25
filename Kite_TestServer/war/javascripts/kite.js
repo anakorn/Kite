@@ -16,13 +16,13 @@
 	    var DEFAULT_QUERY = {'type': 1};
 	    
 	    // '/' get route.	    
-	    this.get('/', function(context) { 
+	    this.get('#/', function(context) { 
 	    	context.params = new Sammy.Object(DEFAULT_QUERY);
 	    	loadEventList(query_url, context);
         });
 	    
 	    // '/filter' post route. Updates the page with event data requested from the java server (JSON).
-	    this.post('/filter', function(context) {
+	    this.post('#/filter', function(context) {
 	    	loadEventList(query_url, context);	   
 	    });
 	    
@@ -39,16 +39,22 @@
         function loadEventList(url, context) {
 	    	var query = "?"; 
 	    	$.each(getKeys(context.params), function(i, key) {
-	    		query += key + "=" + context.params[key];
-	    		if(i < getKeys(context.params).length - 1) {
-	    			query += "&";
+	    		if(context.params[key]) {
+		    		query += key + "=" + context.params[key];
+		    		if(i < getKeys(context.params).length - 1) {
+		    			query += "&";
+		    		}
 	    		}
 	    	});
+	    	
+	    	context.log(url + query);
     		context.loadJSON(url + query).then(function(events) {
 	    		$('.event-info').remove(); // animate?
 	    		context.events = events.data;
+	    		map.clearMarkers();
 	    	}).then(function() {
-	    		$.each(context.events, function(i, event) {	    			
+	    		$.each(context.events, function(i, event) {
+//	    			map.addMarkerByAddress(i, event.name, event.location);
 	    			events[i] = {'event': event}//, marker: marker};
 	    			if(i < context.events.length - 1) {
 	    				context.render('templates/event-info.template', {id: i, event: event})

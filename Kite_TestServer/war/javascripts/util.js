@@ -1,5 +1,7 @@
 function onDocumentLoad() {
-	
+	kiteInitializeMap();
+	window.location = "#/";
+	toggleLoadpage(false);
 }
 
 function getKeys(obj){
@@ -8,6 +10,14 @@ function getKeys(obj){
         if (obj.hasOwnProperty(key)) { keys[keys.length] = key; }
     } 
     return keys;
+}
+
+function toggleLoadpage(loading) {
+	if(loading) {
+		$('#loadpage').fadeIn();
+	} else {
+		$('#loadpage').fadeOut();
+	}
 }
 
 function expandListItem(selector) {

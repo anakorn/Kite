@@ -29,16 +29,16 @@ function kiteInitializeMap() {
 	map.markers 	= [];
 	
 	// Initialization code
-	map.addMarkerByAddress(
-			0, 								// Event ID (probably going to be removed)
-			"Game Developers Week @ UCI",	// Event name
-			"Donald Bren Hall"				// Event address
-	);
-	map.addMarker(
-			1, 
-			"[Workshop - Production] Legal Issues, Licenses, and Copyrights Event", 
-			mapStartPos
-	);
+//	map.addMarkerByAddress(
+//			0, 								// Event ID (probably going to be removed)
+//			"Game Developers Week @ UCI",	// Event name
+//			"Donald Bren Hall"				// Event address
+//	);
+//	map.addMarker(
+//			1, 
+//			"[Workshop - Production] Legal Issues, Licenses, and Copyrights Event", 
+//			mapStartPos
+//	);
 };
 
 -->

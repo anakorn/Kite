@@ -32,6 +32,9 @@ google.maps.Map.prototype.addGeocodeRequest = function(eventId, eventName, addre
 			if (status == google.maps.GeocoderStatus.OK) {
 				map.addMarker(eventId, eventName, results[0].geometry.location);
 			}
+			else if (status == google.maps.GeocoderStatus.ZERO_RESULTS){
+				console.log("Geocode was not successful for the following reason: " + status);
+			}
 			else {
 				alert("Geocode was not successful for the following reason: " + status);
 			}

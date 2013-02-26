@@ -90,7 +90,7 @@
 	float: left;
 	width: 200px;
 	height: 700px;
-	overflow: auto;
+	overflow: hidden;
 }
 
 

@@ -14,9 +14,9 @@ function getKeys(obj){
 
 function toggleLoadpage(loading) {
 	if(loading) {
-		$('#loadpage').fadeIn(100);
+		$('#loadpage').fadeIn();
 	} else {
-		$('#loadpage').fadeOut(100);
+		$('#loadpage').fadeOut();
 	}
 }
 
@@ -30,6 +30,16 @@ function expandListItem(selector) {
     		});
     	} else {
     		$(selector).css('background', '#FFFFFF').find('.event-detail').slideUp('fast');
+    		
+    		// Close every marker's info first
+    		for (var i = 0; i < map.markers.length; i++) {
+    			map.markers[i].hideInfo();
+    		}
+    		
+    		// Pan to marker on Google maps
+    		var marker = map.getMarker($(selector).attr('id'));
+    		marker.showInfo();
+    		map.panTo(marker.getPosition());
     	}
 	}
 }

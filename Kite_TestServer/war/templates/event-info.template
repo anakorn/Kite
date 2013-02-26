@@ -5,6 +5,8 @@
     <div class="event-time"><b>Start: </b><%= event.start_time ? moment(event.start_time).format('LLL') : 'N/A' %></div>
     <div class="event-time"><b>End: </b><%= event.end_time ? moment(event.end_time).format('LLL') : 'N/A' %></div>
     <div class="event-detail">
+    	<div class="event-attn"><b>Host: </b><%= event.host %></div>
+    	<div class="event-attn"><b>Location: </b><%= event.location %></div>
     	<div class="event-attn"><b>Invited: </b><%= event.all_members_count %></div>
         <div class="event-attn"><b>Attendance: </b><%= event.attending_count %></div>
         <br>

@@ -11,9 +11,9 @@
 	    this.debug = false;
 	    
 	    // Instance vars
-	    var query_url = 'testserver';
+	    var query_url =  'DefaultFbEventServlet';//'testserver';
 	    var events = [];
-	    var DEFAULT_QUERY = {'name': 'uci'};
+	    var DEFAULT_QUERY = {'name': 'UCI'};
 	    
 	    // '/' get route.	    
 	    this.get('#/', function(context) { 
@@ -23,6 +23,7 @@
 	    
 	    // '/filter' post route. Updates the page with event data requested from the java server (JSON).
 	    this.post('#/filter', function(context) {
+	    	clearRadios();
 	    	loadEventList(query_url, context);	   
 	    });
 	    
@@ -39,14 +40,15 @@
         function loadEventList(url, context) {
 	    	var query = "?";
 	    	$.each(getKeys(context.params), function(i, key) {
-	    		if(context.params[i] === undefined) {
+	    		if(context.params[i] != undefined ||
+	    				context.params[i] != "") {
 		    		query += key + "=" + context.params[key];
 		    		if(i < getKeys(context.params).length - 1) {
 		    			query += "&";
 		    		}
 	    		}
 	    	});
-	    	
+	    	context.log(url+query);
     		context.loadJSON(url + query).then(function(events) {
 	    		$('.event-info').remove(); // animate?
 	    		context.events = events.data;
@@ -84,7 +86,7 @@
 	});
 	
 	$(document).ready(function() {
-		app.run();
+		app.run('#/');
 	});
 		
 })(jQuery);

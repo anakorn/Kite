@@ -46,11 +46,11 @@ public class FbEventAttendingFilterQuery implements IFbEventFilterQuery
 	public class FbEventAttendingEquality implements IFbEventFilterQuery
 	{
 
-		public static final String GREATER_THAN = "greater_than";
-		public static final String GREATER_EQUAL = "greater_equal";
-		public static final String LESS_THAN = "less_than";
-		public static final String LESSER_EQUAL = "less_than_equal";
-		public static final String EQUAL = "equal";
+		public static final String GREATER_THAN = "gt";
+		public static final String GREATER_EQUAL = "gte";
+		public static final String LESS_THAN = "lt";
+		public static final String LESSER_EQUAL = "lte";
+		public static final String EQUAL = "eq";
 		
 		private String equalityValue;	// one of GREATER_THAN< GREATER_EQUAL, ...
 		

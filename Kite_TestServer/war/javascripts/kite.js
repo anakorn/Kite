@@ -11,9 +11,9 @@
 	    this.debug = false;
 	    
 	    // Instance vars
-	    var query_url = 'testserver';
+	    var query_url =  'DefaultFbEventServlet';
 	    var events = [];
-	    var DEFAULT_QUERY = {'name': 'uci', 'location': 'Donald Bren Hall'};
+	    var DEFAULT_QUERY = {'name': 'UCI'};
 	    
 	    // '/' get route.	    
 	    this.get('#/', function(context) { 
@@ -23,6 +23,7 @@
 	    
 	    // '/filter' post route. Updates the page with event data requested from the java server (JSON).
 	    this.post('#/filter', function(context) {
+	    	clearRadios();
 	    	loadEventList(query_url, context);	   
 	    });
 	    
@@ -46,8 +47,7 @@
 		    		}
 	    		}
 	    	});
-	    	
-	    	context.log(url + query);
+
     		context.loadJSON(url + query).then(function(events) {
 	    		$('.event-info').remove(); // animate?
 	    		context.events = events.data;
@@ -85,7 +85,7 @@
 	});
 	
 	$(document).ready(function() {
-		app.run();
+		app.run('#/');
 	});
 		
 })(jQuery);

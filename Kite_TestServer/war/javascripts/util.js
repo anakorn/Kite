@@ -47,3 +47,7 @@ function expandListItem(selector) {
 function scrollToListItem(selector, duration) {
 	$('#event-list').scrollTo($(selector), duration, {axis: 'y'});
 }
+
+function clearRadios() {
+	$('input[type=radio]').attr('checked', false);
+}

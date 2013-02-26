@@ -79,17 +79,19 @@
 								
 								<label>Time:</label>
 								<div id="checkbox-box">
-									<div class="cb-wrap"><input type="checkbox" name="time" id="now" value="now" /><label>Now</label></div>
-									<div class="cb-wrap"><input type="checkbox" name="time" id="past" value="past" /><label>Past</label></div>
-									<div class="cb-wrap"><input type="checkbox" name="time" id="future" value="future" /><label>Future</label></div>
+									<div class="cb-wrap"><input type="radio" name="time" id="now" value="now" /><label>Now</label></div>
+									<div class="cb-wrap"><input type="radio" name="time" id="past" value="past" /><label>Past</label></div>
+									<div class="cb-wrap"><input type="radio" name="time" id="future" value="future" /><label>Future</label></div>
 								</div>
 								
 								<label>Attendance:</label>
 								<div id="checkbox-box">
-									<div class="cb-wrap"><input type="checkbox" name="attn" id="gt" value="gt" /><label>></label></div>
-									<div class="cb-wrap"><input type="checkbox" name="attn" id="eq" value="eq" /><label>=</label></div>
-									<div class="cb-wrap"><input type="checkbox" name="attn" id="lt" value="lt" /><label><</label></div>
-									<input type="text" name="attn_count" id="attn_count" maxlength="4" value="0"/>
+									<div class="cb-wrap"><input type="radio" name="attn" id="gt" value="gt" /><label>></label></div>
+									<div class="cb-wrap"><input type="radio" name="attn" id="eq" value="eq" /><label>=</label></div>
+									<div class="cb-wrap"><input type="radio" name="attn" id="lt" value="lt" /><label><</label></div>
+									<div class="cb-wrap"><input type="radio" name="attn" id="lte" value="lte" /><label><=</label></div>
+									<div class="cb-wrap"><input type="radio" name="attn" id="gte" value="gte" /><label>>=</label></div>
+									<input type="text" name="attn_count" id="attn_count" maxlength="4"/>
 								</div>								
 								<button type="submit">Filter</button>
 							</form>

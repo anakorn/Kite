@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,15 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
-
 import kite.uci.event.query.FBEventTable;
 import kite.uci.event.query.FbEventAttendingFilterQuery;
 import kite.uci.event.query.FbEventDescriptionFilterQUery;
 import kite.uci.event.query.FbEventFilterQueryException;
 import kite.uci.event.query.FbEventHostFilterQuery;
 import kite.uci.event.query.FbEventLocationFilterQuery;
+import kite.uci.event.query.FbEventNameFilterQuery;
 import kite.uci.event.query.FbEventTimeFilterQuery;
 import kite.uci.event.query.FbNestedQueryBuilder;
 import kite.uci.event.query.FbQueryBuilder;
@@ -67,10 +67,49 @@ public class DefaultFbEventServlet extends HttpServlet
 		queryURI.setScheme(FB_WEB_API_CALL_SHEME);*/
 	}
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
-		PrintWriter writer = null;
-		
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("https://graph.facebook.com/fql?q=");
+		try 
+		{
+			builder.append(URLEncoder.encode(getQuery(req), "UTF-8"));
+			builder.append("&access_token=").append(LONG_LIVED_ACCESS_CODE);
+			System.out.println(String.format("query built: %s", builder.toString()));
+			URLConnection connection = new URL(builder.toString()).openConnection();
+			resp.setContentType("application/json");
+			
+			Scanner in = new Scanner (connection.getInputStream());
+			while (in.hasNextLine())
+				resp.getWriter().print(in.nextLine());
+			
+			in.close();
+		}
+		catch (FbEventFilterQueryException | UnsupportedFbEventReqParam e) 
+		{
+			try 
+			{
+				resp.getWriter().print(e.getMessage());
+			} 
+			catch (IOException e1) 
+			{
+				e1.printStackTrace();
+			}	// bad request
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e) 
+		{
+			// TODO Auto-generated catch block
+			resp.getWriter().print(e.getMessage());
+		} 
+		catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 /*
 		try 
 		{
@@ -137,6 +176,8 @@ public class DefaultFbEventServlet extends HttpServlet
 		qBuilder.appendSelectColumn(FBEventTable.START_TIME);
 		qBuilder.appendSelectColumn(FBEventTable.END_TIME);
 		qBuilder.appendSelectColumn(FBEventTable.ATTENDING_COUNT);
+		qBuilder.appendSelectColumn(FBEventTable.PICTURE);
+		qBuilder.appendSelectColumn(FBEventTable.ALL_MEMBER_COUNT);
 
 		FbQueryBuilder eIdQueryBuilder = new FbNestedQueryBuilder("event_member");
 		eIdQueryBuilder.appendSelectColumn(FBEventTable.ID);
@@ -167,16 +208,13 @@ public class DefaultFbEventServlet extends HttpServlet
 		for (Object param : request.getParameterMap().keySet())
 		{
 			String value = request.getParameter((String) param);
-
+			if (value.isEmpty())
+				continue;
+			
 			switch ((String) param)
 			{
-			case FbEventReqSupportedParam.ATTENDING:
-				String[] values = request.getParameterValues(FbEventReqSupportedParam.ATTENDING);
-				String equality = "";
-				for (String v : values)
-				{
-				//	if (v.equals("))
-				}
+			case FbEventReqSupportedParam.ATTENDING_COUNT:
+				String equality = request.getParameter(FbEventReqSupportedParam.ATTENDING_EQUALITY);
 				FbEventAttendingFilterQuery aFq = new FbEventAttendingFilterQuery();
 				aFq.setAttendingEquality(aFq.new FbEventAttendingEquality(equality));
 				wClauses.add(qBuilder.new WhereClause(aFq.getFilteredString(value)));
@@ -185,7 +223,7 @@ public class DefaultFbEventServlet extends HttpServlet
 			case FbEventReqSupportedParam.NAME:
 				wClauses.add(
 						qBuilder.new WhereClause(
-								new FbEventTimeFilterQuery().getFilteredString(value)));
+								new FbEventNameFilterQuery().getFilteredString(value)));
 				break;
 			case FbEventReqSupportedParam.DESCRIPTION:
 				wClauses.add(
@@ -207,7 +245,8 @@ public class DefaultFbEventServlet extends HttpServlet
 						qBuilder.new WhereClause(
 								new FbEventHostFilterQuery().getFilteredString(value)));
 				break;
-
+			case FbEventReqSupportedParam.ATTENDING_EQUALITY:
+				break;
 			default:
 				throw new UnsupportedFbEventReqParam(String.format("Parameter: %s is unsupported", param));
 			}
@@ -439,7 +478,8 @@ public class DefaultFbEventServlet extends HttpServlet
 		public static final String LOCATION = "loc";
 		public static final String TIME = "time";
 		public static final String HOST = "host";
-		public static final String ATTENDING = "attn";
+		public static final String ATTENDING_COUNT = "attn_count";
+		public static final String ATTENDING_EQUALITY = "attn";
 
 		//----------------------support values-------------------------------
 		public static final String CURRENT = "now";
@@ -448,8 +488,8 @@ public class DefaultFbEventServlet extends HttpServlet
 		public static final String GREATER = "gt";
 		public static final String LESS = "lt";
 		public static final String EQUAL = "eq";
-		public static final String GREATER_EQUAL = "ge";
-		public static final String LESS_EQUAL = "le";
+		public static final String GREATER_EQUAL = "gte";
+		public static final String LESS_EQUAL = "lte";
 	}
 
 	public class UnsupportedFbEventReqParam extends Exception
@@ -472,6 +512,7 @@ public class DefaultFbEventServlet extends HttpServlet
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 	{
 	//	resp.setContentType("application/json");
+		
 		
 	}
 }

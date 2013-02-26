@@ -41,6 +41,9 @@ google.maps.Map.prototype.processGeocodeRequests = function() {
 	if (!this.geoRequestQueue.isEmpty()) {
 		this.geoRequestQueue.dequeue()();
 	}
+	else {
+		toggleLoadpage(false);
+	}
 };
 
 google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {
@@ -91,7 +94,7 @@ google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {
 		map.infoBox.close();
 		marker.setIcon("red-dot.png");
 	});
-	
+
 	// Store in Marker array and track with oms
 	this.markers.push(marker);
 	this.oms.addMarker(marker);
@@ -99,6 +102,10 @@ google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {
 
 // Removes all markers from the map
 google.maps.Map.prototype.clearMarkers = function() {
+	
+	// This function should only be called by kite.js during loading JSON events.
+	// Page needs to be loaded right after this function call.
+	toggleLoadpage(true);
 	
 	for (var i = 0; i < this.markers.length; ++i) {
 		this.markers[i].setMap(null);

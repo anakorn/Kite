@@ -1,7 +1,6 @@
 function onDocumentLoad() {
 	kiteInitializeMap();
-	window.location = "#/";
-	toggleLoadpage(false);
+//	window.location = '#/';
 }
 
 function getKeys(obj){

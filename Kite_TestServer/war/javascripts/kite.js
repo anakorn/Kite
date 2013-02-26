@@ -15,13 +15,13 @@
 	    var events = [];
 	    var DEFAULT_QUERY = {'name': 'UCI'};
 	    
-	    // '/' get route.	    
+	    // '#/' get route.	    
 	    this.get('#/', function(context) { 
 	    	context.params = new Sammy.Object(DEFAULT_QUERY);
 	    	loadEventList(query_url, context);
         });
 	    
-	    // '/filter' post route. Updates the page with event data requested from the java server (JSON).
+	    // '#/filter' post route. Updates the page with event data requested from the java server (JSON).
 	    this.post('#/filter', function(context) {
 	    	loadEventList(query_url, context);	 
 	    	

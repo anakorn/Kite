@@ -13,7 +13,7 @@
 	    // Instance vars
 	    var query_url = 'testserver';
 	    var events = [];
-	    var DEFAULT_QUERY = {'name': 'uci'};
+	    var DEFAULT_QUERY = {'name': 'uci', 'location': 'Donald Bren Hall'};
 	    
 	    // '/' get route.	    
 	    this.get('#/', function(context) { 
@@ -39,7 +39,7 @@
         function loadEventList(url, context) {
 	    	var query = "?";
 	    	$.each(getKeys(context.params), function(i, key) {
-	    		if(context.params[i] === undefined) {
+	    		if(context.params[i]) {
 		    		query += key + "=" + context.params[key];
 		    		if(i < getKeys(context.params).length - 1) {
 		    			query += "&";
@@ -47,6 +47,7 @@
 	    		}
 	    	});
 	    	
+	    	context.log(url + query);
     		context.loadJSON(url + query).then(function(events) {
 	    		$('.event-info').remove(); // animate?
 	    		context.events = events.data;

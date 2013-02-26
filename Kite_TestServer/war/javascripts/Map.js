@@ -12,6 +12,9 @@ google.maps.Map.prototype.geoRequestQueue;
 // Map.markers tracks all markers on map
 google.maps.Map.prototype.markers;
 
+// Map.oms used to expand overlapping markers into multiple markers
+google.maps.Map.prototype.oms;
+
 // Map.infoBox displays a marker's info
 google.maps.Map.prototype.infoBox;
 
@@ -71,7 +74,7 @@ google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {
 	};
 	
 	// Event handler "click" for expanding the event list item
-	google.maps.event.addListener(marker, "click", function() {
+	this.oms.addListener(marker, "click", function() {
 		//map.infoBox.setOptions(infoBoxOptions);
 		//map.infoBox.open(map, marker);
 	});
@@ -89,8 +92,9 @@ google.maps.Map.prototype.addMarker = function(eventId, eventName, latLng) {
 		marker.setIcon("red-dot.png");
 	});
 	
-	// Store in Marker array
+	// Store in Marker array and track with oms
 	this.markers.push(marker);
+	this.oms.addMarker(marker);
 };
 
 // Removes all markers from the map
@@ -101,6 +105,7 @@ google.maps.Map.prototype.clearMarkers = function() {
 		this.markers[i] = null;
 	}
 	this.markers = [];
+	this.oms.clearMarkers();
 };
 
 // Get marker, given its ID

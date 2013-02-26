@@ -25,8 +25,20 @@ function kiteInitializeMap() {
 	map 			= new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	map.infoBox 	= new InfoBox();
 	map.markers 	= [];
+	map.oms 		= new OverlappingMarkerSpiderfier(map);
 	map.geo 		= new google.maps.Geocoder();
 	map.geoRequestQueue = new Queue();
+
+//	for (var i = 0; i < 100; i++) {
+//		map.addMarker(i, "Event " + i, mapStartPos);
+//	}
+	
+	/*
+	for (var i = 0; i < 5; i++) {
+		map.addGeocodeRequest(i, "Event " + i, "Donald Bren Hall");
+	}
+	map.processGeocodeRequests();
+	//map.clearMarkers();*/
 };
 
 -->

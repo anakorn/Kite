@@ -40,12 +40,12 @@
         function loadEventList(url, context) {
 	    	var query = "?";
 	    	$.each(getKeys(context.params), function(i, key) {
-	    		if(context.params[i]) {
+	    		
 		    		query += key + "=" + context.params[key];
 		    		if(i < getKeys(context.params).length - 1) {
 		    			query += "&";
 		    		}
-	    		}
+	    		
 	    	});
 	    	
 	    	console.log("Sending a request to: " + url + query);

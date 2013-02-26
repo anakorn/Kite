@@ -40,12 +40,10 @@
         function loadEventList(url, context) {
 	    	var query = "?";
 	    	$.each(getKeys(context.params), function(i, key) {
-	    		
-		    		query += key + "=" + context.params[key];
-		    		if(i < getKeys(context.params).length - 1) {
-		    			query += "&";
-		    		}
-	    		
+	    		query += key + "=" + context.params[key];
+	    		if(i < getKeys(context.params).length - 1) {
+	    			query += "&";
+	    		}
 	    	});
 	    	
 	    	console.log("Sending a request to: " + url + query);
@@ -53,6 +51,7 @@
 	    		$('.event-info').remove(); // animate?
 	    		context.events = events.data;
 	    		map.clearMarkers();
+	    		$('#nef').remove();
 	    	}).then(function() {
 	    		if(context.events.length > 0) {
 		    		$.each(context.events, function(i, event) {
@@ -78,7 +77,7 @@
 		    			}
 			    	});
 	    		} else {
-	    			$('#event-list').html("<h1>No events could be found.</h1>");
+	    			$('#event-list').html("<h1 id='nef'>No events could be found.</h1>");
 	    		}
 	    		
 	    		// Process geocode requests after adding them

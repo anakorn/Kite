@@ -56,10 +56,6 @@
 	cursor: pointer;
 }
 
-.event-info:hover {
-	background: #ebf4fb; 
-}
-
 .event-info .event-image {
 	float: right;
 	margin: 5px 0px 0px 10px;

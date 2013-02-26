@@ -13,7 +13,7 @@
 	    // Instance vars
 	    var query_url = 'testserver';
 	    var events = [];
-	    var DEFAULT_QUERY = {'type': 0};
+	    var DEFAULT_QUERY = {'name': 'uci'};
 	    
 	    // '/' get route.	    
 	    this.get('#/', function(context) { 
@@ -37,9 +37,9 @@
     	// add event data and marker to events; render the event list item 
     	// var marker = createMarker();
         function loadEventList(url, context) {
-	    	var query = "?"; 
+	    	var query = "?";
 	    	$.each(getKeys(context.params), function(i, key) {
-	    		if(context.params[key]) {
+	    		if(context.params[i] === undefined) {
 		    		query += key + "=" + context.params[key];
 		    		if(i < getKeys(context.params).length - 1) {
 		    			query += "&";
@@ -47,7 +47,6 @@
 	    		}
 	    	});
 	    	
-	    	context.log(url + query);
     		context.loadJSON(url + query).then(function(events) {
 	    		$('.event-info').remove(); // animate?
 	    		context.events = events.data;
@@ -66,7 +65,13 @@
 	    		        		$('.event-info').click(function(e) {
 	    		        			context.log($(e.target).parent().attr('id'));
 	    		        			expandListItem($(e.target).parent());
-	    		        		});	
+	    		        		}).hover(
+	    		        			function() {
+	    		        				$(this).css('background', '#ebf4fb');
+	    		        			}, function() {
+	    		        				$(this).css('background', '#FFFFFF');
+	    		        			}
+		        				);	
 	    			    	});
 	    			}
 		    	});
@@ -79,7 +84,7 @@
 	});
 	
 	$(document).ready(function() {
-		app.run('/');
+		app.run();
 	});
 		
 })(jQuery);

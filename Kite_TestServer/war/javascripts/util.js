@@ -28,6 +28,8 @@ function expandListItem(selector) {
     		$(selector).css('background', '#e7ddf2').find('.event-detail').slideDown('fast', function() {
     			scrollToListItem(selector, 200);
     		});
+    	} else {
+    		$(selector).css('background', '#FFFFFF').find('.event-detail').slideUp('fast');
     	}
 	}
 }

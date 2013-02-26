@@ -35,8 +35,10 @@ function expandListItem(selector) {
         		
         		// Pan to marker on Google maps
         		var marker = map.getMarker($(selector).attr('id'));
-        		marker.showInfo();
-        		map.panTo(marker.getPosition());
+        		if(marker) {
+        			marker.showInfo();
+            		map.panTo(marker.getPosition());
+    			}
     		});
     	} else {
     		$(selector).css('background', '#FFFFFF').find('.event-detail').slideUp('fast');
@@ -48,6 +50,7 @@ function scrollToListItem(selector, duration) {
 	$('#event-list').scrollTo($(selector), duration, {axis: 'y'});
 }
 
-function clearRadios() {
+function resetForm() {
+	$('input[type=text]').val('');
 	$('input[type=radio]').attr('checked', false);
 }
